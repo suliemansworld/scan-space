@@ -370,16 +370,18 @@ startBtn.addEventListener('click', async () => {
 
   const motionOk = await requestMotionPermission();
   if (!motionOk) {
-    alert('Motion access is needed to anchor the 3D box. Please allow in Settings.');
-    startBtn.disabled = false;
-    startBtn.textContent = 'Start Scan';
-    return;
+    alert('Motion access was denied. The 3D box will not rotate as you move.\n\nTo enable: Settings → Safari → Motion & Orientation Access → ON.');
   }
+  // Don't block — app works without motion, just no orientation anchoring
 
-  // All ready
+  // All ready — init scene even without motion
   initScene();
-  startOrientationTracking();
-  setAnchor();
+  if (motionOk) {
+    startOrientationTracking();
+    setAnchor();
+  } else {
+    console.warn('Motion denied — box will be static (no orientation anchoring)');
+  }
   updateVolume();
   animate();
 
