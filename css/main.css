@@ -1,0 +1,237 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+#app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Camera feed */
+#cam {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* Three.js overlay */
+#scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  touch-action: none;
+}
+
+/* Start overlay */
+#start-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.start-card {
+  text-align: center;
+  padding: 2rem;
+  color: #fff;
+}
+
+.start-card h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.start-card p {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.start-card .hint {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.35);
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+#start-btn {
+  background: #4488ff;
+  color: #fff;
+  border: none;
+  padding: 0.875rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  letter-spacing: -0.01em;
+}
+
+#start-btn:active {
+  background: #3366dd;
+}
+
+/* Bottom controls */
+#controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  padding: 0 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(transparent, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.85));
+}
+
+.drag-row {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  margin-bottom: 6px;
+  gap: 10px;
+}
+
+.axis-label {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.85rem;
+  font-weight: 600;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.drag-track {
+  flex: 1;
+  height: 36px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.drag-fill {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 3px;
+  background: rgba(68,136,255,0.3);
+  border-radius: 2px;
+}
+
+.drag-fill-left {
+  right: 50%;
+  left: 0;
+}
+
+.drag-fill-right {
+  left: 50%;
+  right: 0;
+}
+
+.drag-thumb {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  background: #4488ff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  z-index: 2;
+  transition: transform 0.05s ease-out;
+}
+
+.drag-thumb:active {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+.axis-val {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  width: 32px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.axis-unit {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* Volume display */
+#volume-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+#volume-val {
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+#volume-unit {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Hint */
+#hint {
+  position: absolute;
+  bottom: calc(210px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  color: rgba(255,255,255,0.45);
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 0.35rem 0.75rem;
+  background: rgba(0,0,0,0.5);
+  border-radius: 20px;
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Hidden state */
+.hidden {
+  display: none !important;
+}
