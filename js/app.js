@@ -361,6 +361,10 @@ startBtn.addEventListener('click', async () => {
   startBtn.disabled = true;
   startBtn.textContent = 'Starting...';
 
+  // IMPORTANT: requestMotionPermission MUST be called before any await —
+  // otherwise iOS drops the user-gesture context and silently denies.
+  const motionPromise = requestMotionPermission();
+
   const camOk = await startCamera();
   if (!camOk) {
     startBtn.disabled = false;
@@ -368,7 +372,7 @@ startBtn.addEventListener('click', async () => {
     return;
   }
 
-  const motionOk = await requestMotionPermission();
+  const motionOk = await motionPromise;
   if (!motionOk) {
     alert('Motion access was denied. The 3D box will not rotate as you move.\n\nTo enable: Settings → Safari → Motion & Orientation Access → ON.');
   }
